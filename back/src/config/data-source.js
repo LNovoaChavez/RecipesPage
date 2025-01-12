@@ -1,9 +1,8 @@
 const { DataSource } = require("typeorm");
-const User = require("./entities/User");
-const Credential = require("./entities/Credential");
-const Order = require("./entities/Order");
-const Category = require("./entities/Category");
-const Product = require("./entities/Product");
+const { User } = require("../entities/User");
+const { Credential } = require("../entities/Credentials");
+const { Recipe } = require("../entities/Recipes");
+
 
 const AppDataSource = new DataSource({
   type: "postgres",
@@ -14,7 +13,7 @@ const AppDataSource = new DataSource({
   database: process.env.DB_NAME,
   synchronize: false, // Usa esto solo en desarrollo
   logging: false,
-  entities: [User, Credential, Recipe],
+  entities: [User, Credential , Recipe ],
   subscribers: [],
   migrations: [],
 });

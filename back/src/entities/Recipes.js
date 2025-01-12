@@ -18,6 +18,13 @@ class Recipe {
   @Column({ type: "varchar", nullable: true })
   imagen;
 
+  @Column({
+    type: "enum",
+    enum: ["active", "inactive"],
+    default: "active",
+  })
+  status;
+
   @ManyToOne(() => User, (user) => user.recipes)
   @JoinColumn({ name: "user_id" })
   user;

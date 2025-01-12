@@ -1,13 +1,13 @@
 const { Router } = require("express");
-const validateUserRegister = require("../middlewares/userRegister.middleware");
-const validateUserLogin = require("../middlewares/userLogin.middleware");
-const { login, registerUser } = require("../controllers/user.controller");
+const validateUserLogin = require("../middlewares/validateUserLogin");
 const checkLogin = require("../middlewares/checkLogin.middleware");
-const { RecipeRepository } = require("../repositories/recipe.repository");
+const { RecipeRepository } = require("../../repositories/recipe.repository");
+const validateUserRegister = require("../middlewares/validateUserRegister");
+const { registerNewUser, login } = require("../controllers/user.controller");
 
 const usersRouter = Router();
 
-usersRouter.post("/register", validateUserRegister, registerUser);
+usersRouter.post("/register", validateUserRegister, registerNewUser);
 
 usersRouter.post("/login", validateUserLogin, login);
 
