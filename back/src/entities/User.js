@@ -5,7 +5,7 @@ const { Recipe } = require("./Recipe");
 @Entity({ name: "users" })
 class User {
   @PrimaryGeneratedColumn()
-  id;
+  id
 
   @Column({ nullable: false })
   name;
