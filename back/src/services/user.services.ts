@@ -49,7 +49,7 @@ export const loginUserService = async (
       where: {
         email: loginUserDto.email,
       },
-      relations: ["credential", "orders"], // Asegurarse de que las relaciones son correctas
+      relations: ["credential", "recipes"], // Asegurarse de que las relaciones son correctas
     });
 
     if (!user) throw new ClientError("User not found", 404);
