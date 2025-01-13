@@ -1,6 +1,7 @@
-const { Router } = require("express");
-const checkLogin = require("../middlewares/checkLogin.middleware");
+import { Router } from "express";
 
+import checkLogin from "../middlewares/checkLogin.middleware";
+import { createRecipe, getAllRecipes, getRecipe, updateRecipeStatus } from "../controllers/recipes.controller";
 
 const recipesRouter = Router();
 
@@ -14,6 +15,6 @@ recipesRouter.get("/:id", getRecipe);
 recipesRouter.post("/", checkLogin, createRecipe);
 
 // PUT /status/:id - Cambiar el estado de una receta (requiere autenticación)
-recipesRouter.put("/status/:id", checkLogin, deleteRecipe);
+recipesRouter.put("/status/:id", checkLogin, updateRecipeStatus);
 
-module.exports = recipesRouter;
+export default recipesRouter;

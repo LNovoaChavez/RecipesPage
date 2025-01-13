@@ -1,7 +1,8 @@
-const { RecipeRepository } = require("../repositories/recipe.repository");
-const { ClientError } = require("../utils/errors");
+import { Recipe } from "../entities/Recipe";
+import { RecipeRepository } from "../repositories/recipe.repository";
+import { ClientError } from "../utils/errors";
 
-const getAllRecipesService = async () => {
+const getAllRecipesService = async (): Promise<Recipe[]> => {
   try {
     return await RecipeRepository.find();
   } catch (err) {
@@ -9,11 +10,9 @@ const getAllRecipesService = async () => {
   }
 };
 
-const getRecipeByIdService = async (id) => {
+const getRecipeByIdService = async (id: string): Promise<Recipe | null> => {
   try {
-    const recipe = await RecipeRepository.findOne({
-      where: { id },
-    });
+    const recipe = await RecipeRepository.findOne({ where: { id } });
     if (!recipe) {
       throw new ClientError("Recipe not found", 404);
     }
@@ -23,7 +22,23 @@ const getRecipeByIdService = async (id) => {
   }
 };
 
-const createRecipeService = async (title, description, ingredients, image, userId, status = "active") => {
+interface CreateRecipeParams {
+  title: string;
+  description: string;
+  ingredients: string;
+  image?: string;
+  userId: string;
+  status?: string;
+}
+
+const createRecipeService = async ({
+  title,
+  description,
+  ingredients,
+  image,
+  userId,
+  status = "active",
+}: CreateRecipeParams): Promise<Recipe> => {
   try {
     if (!title || !description || !ingredients) {
       throw new ClientError("Missing fields", 400);
@@ -35,7 +50,7 @@ const createRecipeService = async (title, description, ingredients, image, userI
       ingredients,
       image,
       user: { id: userId },
-      status,  // status default is "active" if not provided
+      status,
     });
 
     return await RecipeRepository.save(newRecipe);
@@ -44,23 +59,21 @@ const createRecipeService = async (title, description, ingredients, image, userI
   }
 };
 
-const updateRecipeStatusService = async (id, status) => {
+const updateRecipeStatusService = async (id: string, status: string): Promise<Recipe> => {
   try {
-    const recipe = await RecipeRepository.findOne({
-      where: { id },
-    });
+    const recipe = await RecipeRepository.findOne({ where: { id } });
     if (!recipe) {
       throw new ClientError("Recipe not found", 404);
     }
 
-    recipe.status = status;
+    recipe.status = "inactive";
     return await RecipeRepository.save(recipe);
   } catch (err) {
     throw new Error("Error updating recipe status: " + err.message);
   }
 };
 
-module.exports = {
+export {
   getAllRecipesService,
   getRecipeByIdService,
   createRecipeService,

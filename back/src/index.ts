@@ -1,7 +1,8 @@
-const AppDataSource = require("./config/data-source");
-const { PORT } = require("./config/envs");
-const app = require("./server");
-require("reflect-metadata");
+import { AppDataSource } from "./config/data-source";
+import { PORT } from "./config/envs";
+import app from "./server";
+import "reflect-metadata"
+
 
 const initialize = async () => {
     console.log("Initializing server");
@@ -13,3 +14,4 @@ const initialize = async () => {
 }
 
 initialize();
+
