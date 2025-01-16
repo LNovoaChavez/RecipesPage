@@ -1,34 +1,42 @@
 "use client";
-import { useState } from "react";
-import { CreateRecipe } from "@/helpers/recipesFetches";
-import { Toaster } from "sonner";
+import { useState, useEffect } from "react";
+import { toast, Toaster } from "sonner";
+import { updateRecipe } from "@/helpers/recipesFetches";
+import { useAuth } from "@/context/AuthContext";
+import { FetchRecipes } from "@/helpers/fetchRecipes";
 
-const ModalCreateRecipe = ({ onClose, token }) => {
-  const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-    ingredients: "",
-    image: "",
-    time: "",
-    steps: "",
-  });
-
+const ModalEditRecipe = ({ onClose, recipe, token }) => {
+  const [formData, setFormData] = useState({ ...recipe });
   const [errors, setErrors] = useState({});
+  const [isModified, setIsModified] = useState(false);
+
+  useEffect(() => {
+    setFormData({ ...recipe });
+  }, [recipe]);
 
   const validate = () => {
     const newErrors = {};
     if (!formData.title) newErrors.title = "El título es obligatorio";
     if (!formData.description) newErrors.description = "La descripción es obligatoria";
     if (!formData.ingredients) newErrors.ingredients = "Los ingredientes son obligatorios";
-    if (!formData.time) newErrors.time = "El tiempo de cocina es obligatorio";
-    if (!formData.steps) newErrors.steps = "Los pasos son obligatorios";
+    if (!formData.time) {
+      newErrors.time = "El tiempo de cocina es obligatorio";
+    } else if (isNaN(formData.time) || formData.time <= 0) {
+      newErrors.time = "El tiempo de cocina debe ser un número positivo";
+    }
+    if (!formData.steps) newErrors.steps = "Los pasos a seguir son obligatorios";
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData((prevData) => {
+      const updatedData = { ...prevData, [name]: value };
+      setIsModified(JSON.stringify(updatedData) !== JSON.stringify(recipe));
+      return updatedData;
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -37,18 +45,8 @@ const ModalCreateRecipe = ({ onClose, token }) => {
     if (!validate()) return;
 
     try {
-      const recipeData = {
-        title: formData.title,
-        ingredients: formData.ingredients,
-        description: formData.description,
-        image: formData.image || undefined, 
-        time: formData.time,
-        steps: formData.steps,
-      };
-
-      const createdRecipe = await CreateRecipe(recipeData, token);
-
-      toast.success("Creación exitosa", {
+      const updatedRecipe = await updateRecipe(recipe.id, formData, token);
+      toast.success("Receta actualizada exitosamente", {
         duration: 2000, 
         style: {
           background: "#4caf50", 
@@ -57,20 +55,31 @@ const ModalCreateRecipe = ({ onClose, token }) => {
       });
 
       setTimeout(() => {
-        onClose(); 
+        FetchRecipes(); 
+        onClose();
       }, 1000);
+      
     } catch (error) {
-      console.error("Error creando receta: ", error);
+      console.error("Error actualizando receta: ", error);
+      toast.error("Ocurrió un error al actualizar la receta");
     }
   };
 
-     
+  const handleClickInside = (e) => {
+    e.stopPropagation(); 
+  };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex mx-3 justify-center items-center">
-      <div className="bg-white mt-10 sm:mt-20 rounded-lg p-6 w-full max-w-4xl h-[500px] overflow-y-auto">
-        <h2 className="text-xl font-bold mb-4">Añadir Receta</h2>
-        <Toaster/>
+    <div
+      className="fixed inset-0 bg-black bg-opacity-50 flex mx-3 justify-center items-center"
+      onClick={onClose} 
+    >
+      <div
+        className="bg-white mt-32 mb-10 rounded-lg p-6 w-full max-w-4xl h-[500px] overflow-y-auto"
+        onClick={handleClickInside} 
+      >
+        <h2 className="text-xl font-bold mb-4">Editar Receta</h2>
+        <Toaster />
         <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="mb-4">
@@ -149,9 +158,12 @@ const ModalCreateRecipe = ({ onClose, token }) => {
             </button>
             <button
               type="submit"
-              className="bg-customGreen text-white px-4 py-2 rounded-lg hover:bg-customGreen2"
+              disabled={!isModified}
+              className={`bg-customGreen text-white px-4 py-2 rounded-lg hover:bg-customGreen2 ${
+                isModified ? "" : "cursor-not-allowed"
+              }`}
             >
-              Añadir
+              Aceptar
             </button>
           </div>
         </form>
@@ -160,4 +172,4 @@ const ModalCreateRecipe = ({ onClose, token }) => {
   );
 };
 
-export default ModalCreateRecipe;
+export default ModalEditRecipe;

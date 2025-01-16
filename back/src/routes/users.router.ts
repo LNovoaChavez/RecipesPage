@@ -15,7 +15,7 @@ usersRouter.get("/recipes", checkLogin, async (req: Request, res: Response) => {
     const { userId } = req.body;
     try {
         const recipes = await RecipeRepository.find({
-            relations: ["user"], // Asegúrate de que "user" sea la relación correcta en Recipe
+            relations: ["user"], 
             where: { user: { id: userId } },
         });
         res.send(recipes);

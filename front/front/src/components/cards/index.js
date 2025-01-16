@@ -5,7 +5,6 @@ const Cards = ({ recipes }) => {
     return <div>No recipes available</div>;
   }
 
-  // Filtrar las recetas con estado 'active'
   const activeRecipes = recipes.filter(recipe => recipe.status === "active");
 
   return (

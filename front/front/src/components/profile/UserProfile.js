@@ -3,15 +3,13 @@ import { useAuth } from "@/context/AuthContext";
 const UserProfile = () => {
   const { dataUser } = useAuth(); 
 
-  const defaultImage = '/path/to/default-image.jpg'; 
+  const defaultImage = '/person.png'; 
 
   return (
     <div className="p-4 space-y-4 pt-10 bg-white rounded-lg ">
-      {/* Título */}
       <h2 className="text-2xl font-semibold text-gray-800 text-center">Información del usuario</h2>
 
       <div className="flex justify-center">
-        {/* Imagen del usuario */}
         <img 
           src={dataUser?.image || defaultImage} 
           alt="User Profile" 
@@ -19,7 +17,6 @@ const UserProfile = () => {
         />
       </div>
 
-      {/* Datos del usuario */}
       <div>
         <p className="text-lg text-gray-800"><strong>Nombre:</strong> {dataUser?.user?.name || 'N/A'}</p>
       </div>

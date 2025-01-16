@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { toast, Toaster } from "sonner"; // Para notificaciones
+import { toast, Toaster } from "sonner"; 
 import { RegisterNewUser } from "@/helpers/auth.helper";
 import { validateRegister } from "@/helpers/validationRegister";
 import { useRouter } from "next/navigation";
@@ -41,7 +41,7 @@ const Register = () => {
         style: { backgroundColor: "green", color: "white" },
       });
       setTimeout(() => {
-        router.push(Routes.HOME);
+        router.push(Routes.LOGIN);
       }, 1000);
     } catch (error) {
       toast.error(error.message || "Falló registro", {
@@ -57,9 +57,8 @@ const Register = () => {
   }, [userData]);
 
   return (
-    <div className="my-32">
+    <div className="my-32 mx-4">
       <Toaster />
-      {/* Título principal */}
       <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">
         Registrar nueva cuenta
       </h1>
@@ -163,7 +162,6 @@ const Register = () => {
             <p className="text-red-500 text-sm">{errorUser.repeatPassword}</p>
           )}
         </div>
-        {/* Enlace para redirigir a login */}
         <p className="text-sm text-gray-600 mb-5">
           ¿Ya tienes una cuenta?{" "}
           <a href={Routes.LOGIN} className="text-blue-500 hover:underline">

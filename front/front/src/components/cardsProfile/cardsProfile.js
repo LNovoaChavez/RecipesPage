@@ -5,13 +5,12 @@ const CardsProfile = ({ recipes }) => {
     return <div>No recipes available</div>;
   }
 
-  // Filtrar las recetas con estado 'active'
   const activeRecipes = recipes.filter(recipe => recipe.status === "active");
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1">
       {activeRecipes.length === 0 ? (
-        <div>No active recipes available</div>
+        <div>No tienes recetas</div>
       ) : (
         activeRecipes.map((recipe) => {
           if (!recipe) return null;

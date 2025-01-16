@@ -10,17 +10,14 @@ const LogOutComponent = () => {
   const router = useRouter();
 
   const handleLogout = () => {
-    // Eliminar la sesión del almacenamiento local
     localStorage.removeItem('userSession');
 
-    // Eliminar cookies
     document.cookie.split(";").forEach(cookie => {
       document.cookie = cookie
         .replace(/^ +/, "")
         .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
     });
 
-    // Limpiar el estado del usuario y redirigir
     setDataUser(null);
     router.push(Routes.HOME);
   };

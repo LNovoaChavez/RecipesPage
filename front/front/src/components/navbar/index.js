@@ -3,15 +3,14 @@
 import { Routes } from "@/helpers/PathRoutes";
 import Link from "next/link";
 import { useState } from "react";
-import { useAuth } from "@/context/AuthContext"; // Asegúrate de importar correctamente tu contexto
+import { useAuth } from "@/context/AuthContext";  
 import LogOutComponent from "../logout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { dataUser } = useAuth(); // Obtén dataUser del contexto de Auth
-
+  const { dataUser } = useAuth(); 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };

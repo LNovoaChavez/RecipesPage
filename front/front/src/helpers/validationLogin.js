@@ -2,13 +2,13 @@ export const validateLoginForm = (values) => {
     let errors = {}
     
     if (!values.email) {
-        errors.email = "Email is required";
+        errors.email = "Email es requerido";
     } else if (!/\S+@\S+\.\S+/.test(values.email)) {
-        errors.email = "Email is invalid";
+        errors.email = "Email es invalido";
     }
 
     if (!values.password) {
-        errors.password = "Password is required";
+        errors.password = "Password es requerida";
     }
 
     return errors;

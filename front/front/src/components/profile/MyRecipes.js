@@ -4,45 +4,43 @@ import { FetchRecipesByUser } from "@/helpers/recipesFetches";
 import { useEffect, useState } from "react";
 import CardsProfile from "../cardsProfile/cardsProfile";
 import { FaPlus } from "react-icons/fa";
-import ModalCreateRecipe from "./ModalCreateRecipe"; // Importamos el nuevo componente
+import ModalCreateRecipe from "./ModalCreateRecipe"; 
 
 const MyRecipes = () => {
-  const { dataUser } = useAuth(); // Obtener datos del usuario (incluyendo el token)
-  const [recipes, setRecipes] = useState([]); // Estado para almacenar las recetas
-  const [isModalOpen, setIsModalOpen] = useState(false); // Estado para controlar el modal
+  const { dataUser } = useAuth(); 
+  const [recipes, setRecipes] = useState([]); 
+  const [isModalOpen, setIsModalOpen] = useState(false); 
 
   useEffect(() => {
     const fetchRecipes = async () => {
       if (dataUser?.token) {
         try {
-          const fetchedRecipes = await FetchRecipesByUser(dataUser.token); // Usamos el token para la petición
-          setRecipes(fetchedRecipes); // Guardamos las recetas en el estado
+          const fetchedRecipes = await FetchRecipesByUser(dataUser.token); 
+          setRecipes(fetchedRecipes); 
         } catch (error) {
           console.error("Error fetching recipes: ", error);
         }
       }
     };
 
-    fetchRecipes(); // Llamamos a la función para hacer la solicitud
-  }, [dataUser?.token]); // Dependemos de `dataUser?.token` para que se ejecute cuando esté disponible
+    fetchRecipes(); 
+  }, [dataUser?.token]); 
 
   const handleOpenModal = () => {
-    setIsModalOpen(true); // Abrir el modal
+    setIsModalOpen(true); 
   };
 
   const handleCloseModal = () => {
-    setIsModalOpen(false); // Cerrar el modal
+    setIsModalOpen(false); 
   };
 
   return (
-    <div className="relative"> {/* Contenedor relativo para posicionar el botón */}
-      {/* Botón para añadir receta */}
+    <div className="relative"> 
       <button
         onClick={handleOpenModal}
         className="absolute top-0 right-0 mt-2 mr-2 bg-customGreen text-white px-4 py-2 rounded-lg shadow-lg flex items-center space-x-2 hover:bg-customGreen2 transition-all sm:px-2 sm:py-1"
         aria-label="Añadir una receta"
       >
-        {/* Mostrar texto en pantallas grandes y solo ícono en pantallas pequeñas */}
         <span className="hidden sm:inline">Añadir una receta</span>
         <FaPlus className="sm:hidden" />
       </button>
@@ -50,7 +48,6 @@ const MyRecipes = () => {
       <h2 className="text-2xl font-semibold mb-4">Mis recetas</h2>
       <CardsProfile recipes={recipes} />
 
-      {/* Modal para crear una receta */}
       {isModalOpen && (
         <ModalCreateRecipe onClose={handleCloseModal} token={dataUser?.token} />
       )}

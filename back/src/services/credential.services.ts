@@ -2,7 +2,6 @@ import bcrypt from "bcrypt";
 import { CredentialRepository } from "../repositories/credential.repository";
 import { Credential } from "../entities/Credential";
 import CreateCredentialDto from "../dtos/createCredential.dto";
-// ...
 
 export const createCredentialService = async (credentialDto: CreateCredentialDto): Promise<Credential> => {
     const { password } = credentialDto;
