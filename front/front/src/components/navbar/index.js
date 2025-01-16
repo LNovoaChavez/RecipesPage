@@ -3,9 +3,14 @@
 import { Routes } from "@/helpers/PathRoutes";
 import Link from "next/link";
 import { useState } from "react";
+import { useAuth } from "@/context/AuthContext"; // Asegúrate de importar correctamente tu contexto
+import LogOutComponent from "../logout";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { dataUser } = useAuth(); // Obtén dataUser del contexto de Auth
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -19,21 +24,37 @@ function NavBar() {
             href={Routes.HOME}
             className="flex items-center space-x-3 rtl:space-x-reverse"
           >
-            <span className="self-center text-2xl font-semibold whitespace-nowrap">
-              Cooking
+            <span className="self-center text-2xl md:text-3xl font-semibold whitespace-nowrap">
+              Cook<strong className="text-customGreen">ing</strong>
             </span>
           </a>
           <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-            <button
-              href = {Routes.REGISTER}
-              type="button"
-              className="text-white text-lg bg-customGreen hover:bg-customGreen2 focus:ring-4 focus:outline-none font-medium rounded-md px-4 py-2 text-center"
-            >
-              <Link href={Routes.REGISTER}>Registrarse</Link>            </button>
+            {dataUser?.token ? (
+              <div className="flex items-center space-x-3 rtl:space-x-reverse">
+                <Link href={Routes.PROFILE}>
+                  <button
+                    type="button"
+                    className="text-white text-lg bg-customGreen hover:bg-customGreen2 focus:ring-4 focus:outline-none font-medium rounded-md px-4 py-2 text-center flex items-center"
+                  >
+                    <FontAwesomeIcon icon={faUser} className="w-5 h-5 mr-2" />
+                  </button>
+                </Link>
+                <LogOutComponent />
+              </div>
+            ) : (
+              <Link href={Routes.REGISTER}>
+                <button
+                  type="button"
+                  className="text-white text-lg bg-customGreen hover:bg-customGreen2 focus:ring-4 focus:outline-none font-medium rounded-md px-4 py-2 text-center"
+                >
+                  Registrarse
+                </button>
+              </Link>
+            )}
             <button
               onClick={toggleMenu}
               type="button"
-              className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm rounded-lg md:hidden focus:outline-none focus:ring-2 focus:ring-gray-200 "
+              className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm rounded-lg md:hidden focus:outline-none focus:ring-2 focus:ring-gray-200"
               aria-controls="navbar-sticky"
               aria-expanded={isMenuOpen}
             >
@@ -73,7 +94,7 @@ function NavBar() {
               </li>
               <li>
                 <a
-                   href="#nosotros"
+                  href={`${Routes.HOME}#nosotros`}
                   className="block py-2 px-3 text-black hover:bg-customCream hover:transform hover:scale-105 transition-all duration-300 md:bg-transparent md:p-0 md:border-b-2 md:border-customGreen"
                 >
                   Nosotros
@@ -81,7 +102,7 @@ function NavBar() {
               </li>
               <li>
                 <a
-                  href="#"
+                  href={Routes.RECIPES}
                   className="block py-2 px-3 text-black hover:bg-customCream hover:transform hover:scale-105 transition-all duration-300 md:bg-transparent md:p-0 md:border-b-2 md:border-customGreen"
                 >
                   Explora
@@ -89,7 +110,7 @@ function NavBar() {
               </li>
               <li>
                 <a
-                  href="#"
+                  href={`${Routes.HOME}#contacto`}
                   className="block py-2 px-3 text-black hover:bg-customCream hover:transform hover:scale-105 transition-all duration-300 md:bg-transparent md:p-0 md:border-b-2 md:border-customGreen"
                 >
                   Contacto

@@ -18,35 +18,31 @@ const RecipeID = ({ params }) => {
   }, [recipeID]);
 
   return (
-    <div className="max-w-6xl my-40 mx-auto flex flex-col lg:flex-row bg-black shadow-xl rounded-lg overflow-hidden p-6">
-      {/* Sección de la imagen */}
-      <div className="lg:w-1/2 p-4 flex justify-center items-center bg-gray-800 rounded-lg shadow-md">
+    <div className="max-w-4xl mx-2 md:mx-auto my-40 bg-white rounded-lg shadow-lg p-8">
+      {/* Imagen */}
+      <div className="flex justify-center mb-8">
         <img
           src={recipe?.image}
-          alt={recipe?.name}
-          className="object-cover rounded-lg max-w-full h-auto shadow-lg"
+          alt={recipe?.title}
+          className="w-full max-w-md rounded-lg shadow-md"
         />
       </div>
-      
-      {/* Sección de contenido textual */}
-      <div className="lg:w-1/2 p-6 space-y-6 text-white bg-gray-800 rounded-lg shadow-md">
-        <div>
-          <h2 className="text-3xl font-semibold mb-4 text-center text-customGreen">{recipe?.title}</h2>
-        </div>
-        
-        {/* Ingredientes */}
-        <div>
-          <h3 className="text-xl font-semibold text-customGreen">Ingredientes</h3>
-          <ul className="list-disc pl-6 space-y-2">
-            {recipe?.ingredients}
-          </ul>
-        </div>
-        
-        {/* Descripción */}
-        <div>
-          <h3 className="text-xl font-semibold text-customGreen">Descripción</h3>
-          <p className="text-lg">{recipe?.description}</p>
-        </div>
+
+      {/* Título */}
+      <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">
+        {recipe?.title}
+      </h1>
+
+      {/* Ingredientes */}
+      <div className="text-center mb-8">
+        <h2 className="text-2xl font-semibold text-gray-700 mb-4">Ingredientes</h2>
+        <p>{recipe?.ingredients}</p>
+      </div>
+
+      {/* Descripción */}
+      <div>
+        <h3 className="text-xl font-semibold text-gray-700 mb-4">Descripción</h3>
+        <p className="text-lg text-gray-600 text-left">{recipe?.description}</p>
       </div>
     </div>
   );

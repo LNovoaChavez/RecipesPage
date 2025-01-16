@@ -53,7 +53,6 @@ export const createRecipe = async (req: Request, res: Response): Promise<void> =
   }
 };
 
-// Actualizar el estado de una receta
 export const updateRecipeStatus = async (req: Request, res: Response): Promise<void> => {
   const { id } = req.params;
   const { status } = req.body;
