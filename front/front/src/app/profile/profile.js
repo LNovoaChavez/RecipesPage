@@ -4,15 +4,14 @@ import UserProfile from '@/components/profile/UserProfile';
 import React, { useState } from 'react';
 
 const Profile = () => {
-  const [activeTab, setActiveTab] = useState('user'); // Estado para manejar la pestaña activa
+  const [activeTab, setActiveTab] = useState('user'); 
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
 
   return (
-    <div className="sm:max-w-[90%] mx-auto my-32 py-10">
-      {/* Título principal "Tu cuenta" */}
+    <div className="sm:max-w-[90%] mx-auto my-28 py-10">
       <h2 className="text-3xl font-semibold text-gray-800 text-center mb-8">Tu cuenta</h2>
 
       <div className="mb-4  border-b border-gray-200 dark:border-gray-700">

@@ -17,21 +17,16 @@ export const registerUserService = async (
   registerUserDto: RegisterUserDto
 ): Promise<User> => {
   try {
-    // Crear el usuario con la información del DTO
     const user = await UserRepository.create(registerUserDto);
 
-    // Guardar el usuario en la base de datos
     await UserRepository.save(user);
 
-    // Crear las credenciales para el usuario
     const credential = await createCredentialService({
       password: registerUserDto.password,
     });
 
-    // Asignar las credenciales al usuario
     user.credential = credential;
 
-    // Guardar el usuario con las credenciales
     await UserRepository.save(user);
 
     return user;
@@ -44,17 +39,15 @@ export const loginUserService = async (
   loginUserDto: LoginUserDto
 ): Promise<{ token: string; user: User }> => {
   try {
-    // Buscar el usuario por email
     const user: User | null = await UserRepository.findOne({
       where: {
         email: loginUserDto.email,
       },
-      relations: ["credential", "recipes"], // Asegurarse de que las relaciones son correctas
+      relations: ["credential", "recipes"], 
     });
 
     if (!user) throw new ClientError("User not found", 404);
 
-    // Verificar la contraseña
     const isPasswordValid = await checkPasswordService(
       loginUserDto.password,
       user.credential.password
@@ -62,7 +55,6 @@ export const loginUserService = async (
 
     if (!isPasswordValid) throw new ClientError("Invalid password", 400);
 
-    // Generar el token JWT
     const token = jwt.sign({ userId: user.id }, JWT_SECRET);
 
     return { user, token };

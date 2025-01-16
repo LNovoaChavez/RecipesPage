@@ -7,11 +7,9 @@ const AuthContext = createContext({
     setDataUser: () => {},
 });
 
-// Proveedor del contexto
 export const AuthProvider = ({ children }) => {
     const [dataUser, setDataUser] = useState(null);
 
-    // Guardar en localStorage cuando `dataUser` cambia
     useEffect(() => {
         if (dataUser && typeof dataUser === "object") {
             localStorage.setItem("userSession", JSON.stringify(dataUser));
@@ -19,7 +17,6 @@ export const AuthProvider = ({ children }) => {
     }, [dataUser]);
     
 
-    // Recuperar datos del localStorage al montar
     useEffect(() => {
         if (typeof window !== "undefined" && window.localStorage) {
             const data = localStorage.getItem("userSession");
@@ -36,5 +33,4 @@ export const AuthProvider = ({ children }) => {
     );
 };
 
-// Hook personalizado para usar el contexto
 export const useAuth = () => useContext(AuthContext);

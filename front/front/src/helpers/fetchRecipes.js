@@ -4,7 +4,10 @@ export const FetchRecipes = async () => {
     try {
         const res = await fetch(`${apiURL}/recipes`, {
             method: "GET",
-            next: { revalidate: 60 }
+            headers: {
+                "Cache-Control": "no-cache", 
+            },
+            next: { revalidate: 3600 }
         });
         const recipes = await res.json();
         return recipes;

@@ -1,14 +1,17 @@
 import { Routes } from "@/helpers/PathRoutes";
 import { useRouter } from "next/navigation";
-import { FaTrash } from "react-icons/fa";
+import { FaTrash, FaEdit } from "react-icons/fa"; 
 import { useState } from "react";
 import { updateRecipeStatus } from "@/helpers/recipesFetches";
 import { useAuth } from "@/context/AuthContext";
+import ModalEditRecipe from "../profile/ModalEditRecipe";
+import { Toaster, toast } from "sonner";
 
 const CardProfile = ({ recipe, token }) => {
-  const [status, setStatus] = useState(recipe.status); // Estado local para el status
+  const [status, setStatus] = useState(recipe.status);
+  const [isEditModalOpen, setEditModalOpen] = useState(false);
   const router = useRouter();
-  const {dataUser} = useAuth()
+  const { dataUser } = useAuth();
 
   const truncateDescription = (description) => {
     const words = description.split(" ");
@@ -23,15 +26,25 @@ const CardProfile = ({ recipe, token }) => {
   };
 
   const handleDeleteClick = async (e) => {
-    e.stopPropagation(); // Para evitar que el click en el botón propague el evento al card
-
+    e.stopPropagation();
     try {
-      const newStatus = await updateRecipeStatus(recipe.id, status, dataUser?.token); // Llamamos a la función externa
-      setStatus(newStatus); // Actualizamos el estado local con el nuevo valor
-      alert("Recipe status updated successfully");
+      const newStatus = await updateRecipeStatus(recipe.id, status, dataUser?.token);
+      setStatus(newStatus);
+      toast.success("Se eliminó correctamente", {
+        duration: 2000,
+        style: {
+          background: "#4caf50",
+          color: "#fff",
+        },
+      });
     } catch (error) {
-      alert(error.message);
+      toast.error("Ocurrió un error al eliminar");
     }
+  };
+
+  const handleEditClick = (e) => {
+    e.stopPropagation();
+    setEditModalOpen(true);
   };
 
   return (
@@ -49,8 +62,11 @@ const CardProfile = ({ recipe, token }) => {
         <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
           {recipe.title}
         </h5>
+        <p className="mb-2 text-sm font-medium text-gray-500 dark:text-gray-400">
+          Tiempo de cocina: {recipe.time} minutos
+        </p>
         <p className="mb-2 font-normal text-gray-700 dark:text-gray-400">
-          <span className="font-bold">Ingredients:</span> {recipe.ingredients}
+          <span className="font-bold">Ingredientes:</span> {recipe.ingredients}
         </p>
         <p className="mb-2 font-normal text-gray-700 dark:text-gray-400">
           {truncateDescription(recipe.description)}
@@ -86,9 +102,24 @@ const CardProfile = ({ recipe, token }) => {
             >
               <FaTrash size={20} />
             </button>
+            <button
+              className="p-2 text-customGreen hover:text-customGreen2"
+              aria-label="Edit"
+              onClick={handleEditClick}
+            >
+              <FaEdit size={20} />
+            </button>
           </div>
         </div>
       </div>
+      {isEditModalOpen && (
+        <ModalEditRecipe
+          recipe={recipe}
+          onClose={() => setEditModalOpen(false)}
+          token={dataUser?.token}
+        />
+      )}
+      <Toaster />
     </div>
   );
 };

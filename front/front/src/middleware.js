@@ -6,17 +6,16 @@ export function middleware(request) {
   const isAuthRoute = ['/login', '/register'].includes(request.nextUrl.pathname);
 
   if (userSession && isAuthRoute) {
-    return NextResponse.redirect(new URL('/dashboard', request.url));
+    return NextResponse.redirect(new URL('/profile', request.url));
   }
 
   if (!userSession && !isAuthRoute) {
     const response = NextResponse.redirect(new URL('/login', request.url));
     response.cookies.set('userSession', '', { maxAge: 0 });
-    response.headers.set('Clear-Site-Data', '"storage"'); // Esto limpia el localStorage en el lado del cliente
+    response.headers.set('Clear-Site-Data', '"storage"');  
     return response;
   }
 
-  // Extender la expiración de la cookie si la sesión está activa
   if (userSession) {
     const expires = new Date();
     expires.setMonth(expires.getMonth() + 3);
@@ -29,5 +28,5 @@ export function middleware(request) {
 }
 
 export const config = {
-  matcher: ['/dashboard', '/dashboard/cart', '/dashboard/favorites', '/login', '/register'], // Rutas que deben ser protegidas
+  matcher: ['/profile', '/login', '/register'], 
 };

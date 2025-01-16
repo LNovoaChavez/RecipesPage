@@ -1,10 +1,10 @@
-import { FaExclamationTriangle } from 'react-icons/fa'; // Importar un ícono para el error
+import { FaExclamationTriangle } from 'react-icons/fa'; 
 
 const NotFound = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-customGreen2 text-black px-4 py-8">
       <div className="text-center p-8">
-        <FaExclamationTriangle className="text-6xl mb-4 animate-bounce" /> {/* Icono de advertencia */}
+        <FaExclamationTriangle className="text-6xl mb-4 animate-bounce" /> 
         <h1 className="text-6xl font-bold mb-4">404</h1>
         <h3 className="text-2xl mb-4 font-semibold">Oops! This page doesn't exist.</h3>
         <p className="text-lg mb-6">But we have more exciting recipes and features for you...</p>

@@ -30,7 +30,7 @@ export const CreateRecipe = async (recipeData, token) => {
         "Content-Type": "application/json",
         Authorization: token,
       },
-      body: JSON.stringify(recipeData), // Aquí usamos recipeData correctamente
+      body: JSON.stringify(recipeData), 
     });
 
     if (!res.ok) {
@@ -40,7 +40,7 @@ export const CreateRecipe = async (recipeData, token) => {
     const createdRecipe = await res.json();
     return createdRecipe;
   } catch (error) {
-    console.error("Error creando receta: ", error);
+    console.error("Error creando receta: ", error.response ? error.response.data : error);
     throw error;
   }
 };
@@ -55,19 +55,42 @@ export const updateRecipeStatus = async (recipeId, currentStatus, token) => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: token, // Suponiendo que usas Bearer token
+        Authorization: token, 
       },
       body: JSON.stringify({ status: newStatus }),
     });
 
     if (response.ok) {
       const updatedRecipe = await response.json();
-      return updatedRecipe.recipe.status; // Retorna el nuevo estado
+      return updatedRecipe.recipe.status; 
     } else {
       throw new Error("Failed to update recipe status");
     }
   } catch (error) {
     console.error("Error updating recipe status:", error);
     throw new Error("An error occurred while updating the recipe status");
+  }
+};
+
+export const updateRecipe = async (recipeId, updatedData, token) => {
+  try {
+    const response = await fetch(`${apiURL}/recipes/${recipeId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,  
+      },
+      body: JSON.stringify(updatedData), 
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error al actualizar la receta: ${response.statusText}`);
+    }
+
+    const updatedRecipe = await response.json();
+    return updatedRecipe;
+  } catch (error) {
+    console.error("Error al actualizar la receta:", error);
+    throw new Error(error.message || "Error actualizando la receta");
   }
 };

@@ -41,10 +41,9 @@ const Login = () => {
         style: { backgroundColor: "green", color: "white" },
       });
 
-      // Redirige a la página de perfil después de 2 segundos
       setTimeout(() => {
         router.push(Routes.PROFILE);
-      }, 2000);
+      }, 1000);
     } catch (error) {
       toast.error(error.message, {
         position: "bottom-right",
@@ -63,7 +62,7 @@ const Login = () => {
   }, [userData]);
 
   return (
-    <div className="my-32">
+    <div className="my-32 mx-4">
       <Toaster />
       <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">
         Iniciar Sesión
