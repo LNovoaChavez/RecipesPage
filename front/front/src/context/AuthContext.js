@@ -13,10 +13,11 @@ export const AuthProvider = ({ children }) => {
 
     // Guardar en localStorage cuando `dataUser` cambia
     useEffect(() => {
-        if (dataUser) {
+        if (dataUser && typeof dataUser === "object") {
             localStorage.setItem("userSession", JSON.stringify(dataUser));
         }
     }, [dataUser]);
+    
 
     // Recuperar datos del localStorage al montar
     useEffect(() => {

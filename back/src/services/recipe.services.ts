@@ -63,14 +63,14 @@ const createRecipeService = async ({
   }
 };
 
-const updateRecipeStatusService = async (id: string, status: string): Promise<Recipe> => {
+const updateRecipeStatusService = async (id: string, status: "active" | "inactive"): Promise<Recipe> => {
   try {
     const recipe = await RecipeRepository.findOne({ where: { id } });
     if (!recipe) {
       throw new ClientError("Recipe not found", 404);
     }
 
-    recipe.status = "inactive";
+    recipe.status = status ;  // Usa el estado recibido
     return await RecipeRepository.save(recipe);
   } catch (err) {
     throw new Error("Error updating recipe status: " + err.message);

@@ -1,4 +1,4 @@
-import HomeMainImage from "./HomeMainImage"
+import HomeMainImage from "./homeMainImage"
 
 const HomeContainer = () => {
     return (

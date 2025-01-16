@@ -1,13 +1,14 @@
-"use client";
-
+"use client"
 import { useAuth } from "@/context/AuthContext";
 import { LoginUser } from "@/helpers/auth.helper";
 import { Routes } from "@/helpers/PathRoutes";
 import { validateLoginForm } from "@/helpers/validationLogin";
+import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import { toast, Toaster } from "sonner";
 
 const Login = () => {
+  const router = useRouter();
   const { dataUser, setDataUser } = useAuth();
 
   const [userData, setUserData] = useState({
@@ -34,11 +35,16 @@ const Login = () => {
     try {
       const res = await LoginUser(userData);
       setDataUser(res);
-      document.cookie = `userSession=${JSON.stringify(res)}; path=/`;
+      document.cookie = `userSession=${JSON.stringify(res)}`;
       toast.success("Logeo exitoso", {
         position: "bottom-right",
         style: { backgroundColor: "green", color: "white" },
       });
+
+      // Redirige a la página de perfil después de 2 segundos
+      setTimeout(() => {
+        router.push(Routes.PROFILE);
+      }, 2000);
     } catch (error) {
       toast.error(error.message, {
         position: "bottom-right",
@@ -117,10 +123,8 @@ const Login = () => {
         </div>
         <div className="text-start my-4">
           <p className="text-gray-700 dark:text-gray-300 text-sm">
-            ¿No tienes una cuenta?{' '}
-            <a
-              href={Routes.REGISTER} className="text-blue-500 hover:underline"
-            >
+            ¿No tienes una cuenta?{" "}
+            <a href={Routes.REGISTER} className="text-blue-500 hover:underline">
               Crea una nueva
             </a>
           </p>

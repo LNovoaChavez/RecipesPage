@@ -1,3 +1,4 @@
+"use client"
 import Cards from "@/components/cards";
 import { FetchRecipes } from "@/helpers/fetchRecipes";
 
