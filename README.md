@@ -12,13 +12,7 @@ Comparte tus recetas, encuentra inspiración para tus próximas comidas y convi�
 ✅ **Personalización:** Edita el estado de tus recetas y organízalas como quieras.  
 ✅ **Autenticación segura:** Protegemos tu cuenta con tokens para garantizar tu privacidad.  
 
----
 
-## 🎥 Vista Previa de la App  
-¡Mira cómo funciona Cooking!  
-
-![Vista previa de RecipeHub](./assets/demo.gif)  
-> *(Importa aquí un gif que muestre cómo funciona la aplicación: explorar recetas, iniciar sesión y subir una receta.)*
 
 ---
 
@@ -62,11 +56,22 @@ Primero, clona el repositorio a tu máquina local:
 
 ```bash
 git clone <url-del-repositorio>
-
-### 2. Abrir el Proyecto
+--
+2. Abrir el Proyecto
 
 Abre el proyecto en tu editor de código favorito, por ejemplo, Visual Studio Code:
 
-```bash
-code .
+3. Se colocan en la raiz del proyecto y abren una terminal y corren el comando
+
+npm install
+
+4. Luego abren una terminal en cada carpeta (back y front/front)
+
+Previamente configuran sus variables de entorno y en la terminal del back van a correr el comando "npm start" antes habiendo activado en data-source.ts lo siguiente:
+{
+  "dropSchema": true,
+  "synchronize": true
+}
+
+5. luego en la carpeta del front/front corren el comando npm run dev y listo
  
