@@ -32,9 +32,10 @@ export class Recipe {
   status: "active" | "inactive";
 
   @Column()
-  time: string;  
+  time: string; 
   @Column()
-  steps: string; 
+  steps: string;
+  
 
   @ManyToOne(() => User, (user) => user.recipes)
   @JoinColumn({ name: "userId" })
