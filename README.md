@@ -52,4 +52,21 @@ Comparte tus recetas, encuentra inspiración para tus próximas comidas y convi�
 
 ---
 
+## 🚀 Instrucciones para Levantar el Proyecto
 
+Para levantar el proyecto, sigue los pasos a continuación:
+
+### 1. Clonar el Repositorio
+
+Primero, clona el repositorio a tu máquina local:
+
+```bash
+git clone <url-del-repositorio>
+
+### 2. Abrir el Proyecto
+
+Abre el proyecto en tu editor de código favorito, por ejemplo, Visual Studio Code:
+
+```bash
+code .
+ 
